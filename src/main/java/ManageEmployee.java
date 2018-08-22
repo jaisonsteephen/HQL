@@ -90,10 +90,13 @@ public class ManageEmployee {
 			System.out.println(e.getFirstName());
 			System.out.println(a.getAddress());
 			
+			//Testing of join operation one-to-many
 			Set<Address> addrs=e.getAddress();
 			for(Address ad:addrs) {
 				System.out.println(ad.getAddress());
 			}
+			
+			//Testing of join operation many-to-one
 			System.out.println(a.getEmp().getFirstName());
 		}
 	}
