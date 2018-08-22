@@ -1,4 +1,4 @@
-
+package org.hql.xml;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

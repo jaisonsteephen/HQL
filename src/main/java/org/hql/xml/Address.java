@@ -1,3 +1,4 @@
+package org.hql.xml;
 public class Address {
 private int id;
 private String address;

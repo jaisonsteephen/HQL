@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="Employee" table="EMPLOYEE2">
+	<class name="org.hql.xml.Employee" table="EMPLOYEE2">
 		<meta attribute="class-description">
 			This class contains the employee detail.
 		</meta>
@@ -19,7 +19,7 @@
 			<key>
 				<column name="EMPID_FK"></column>
 			</key>
-			<one-to-many class="Address"></one-to-many>
+			<one-to-many class="org.hql.xml.Address"></one-to-many>
 		</set>
 	</class>
 </hibernate-mapping>

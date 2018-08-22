@@ -4,7 +4,7 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-	<class name="Address" table="employee_address">
+	<class name="org.hql.xml.Address" table="employee_address">
 		<meta attribute="class-description">
 			This class contains the address detail.
 		</meta>
@@ -12,6 +12,6 @@
 			<generator class="native" />
 		</id>
 		<property name="address" type="string" column="ADDRESS"/>
-		<many-to-one name="emp" class="Employee" column="EMPID_FK" cascade="all"/>
+		<many-to-one name="emp" class="org.hql.xml.Employee" column="EMPID_FK" cascade="all"/>
 	</class>
 </hibernate-mapping>

@@ -1,3 +1,4 @@
+package org.hql.xml;
 import java.io.Serializable;
 import java.util.Set;
 
