@@ -1,20 +1,20 @@
-
 public class Address {
 private int id;
-private int empId;
 private String address;
+private Employee emp;
 
+public Address(){
+	
+}
+public Address(int id,String address){
+	this.id=id;
+	this.address=address;
+}
 public int getId() {
 	return id;
 }
 public void setId(int id) {
 	this.id = id;
-}
-public int getEmpId() {
-	return empId;
-}
-public void setEmpId(int empId) {
-	this.empId = empId;
 }
 public String getAddress() {
 	return address;
@@ -22,6 +22,11 @@ public String getAddress() {
 public void setAddress(String address) {
 	this.address = address;
 }
-
+public Employee getEmp() {
+	return emp;
+}
+public void setEmp(Employee emp) {
+	this.emp = emp;
+}
 
 }

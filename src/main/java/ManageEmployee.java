@@ -1,53 +1,118 @@
+import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.EntityManager;
+import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.ProjectionList;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 /*create table EMPLOYEE2 (
-		   id INT NOT NULL auto_increment,
+		   empid INT NOT NULL auto_increment,
 		   first_name VARCHAR(20) default NULL,
 		   last_name  VARCHAR(20) default NULL,
 		   salary     INT  default NULL,
-		   PRIMARY KEY (id)
+		   PRIMARY KEY (empid)
 		);*/
+/*create table employee_address (
+			ADDID INT NOT NULL auto_increment,
+			ADDRESS  VARCHAR(20) default NULL,
+			EMPID_FK     INT  default NULL,
+			PRIMARY KEY (ADDID)
+);*/
+
+//Oracle
+/*CREATE SEQUENCE EMP_ID_SEQ START WITH 1;*/
+
+/* CREATE OR REPLACE TRIGGER EMPLOYEE2IDTRIGR
+	BEFORE INSERT ON EMPLOYEE2
+	FOR EACH ROW
+	BEGIN
+	SELECT EMP_ID_SEQ.NEXTVAL
+	INTO   :new.empid
+	FROM   dual;
+	END;
+/*/
+
+/* CREATE OR REPLACE TRIGGER EMPLOYEE_ADDRESS_TRIGR
+  BEFORE INSERT ON EMPLOYEE_ADDRESS
+  FOR EACH ROW
+  BEGIN
+  SELECT EMP_ID_SEQ.NEXTVAL
+  INTO   :new.ADDID
+  FROM   dual;
+  END;
+  /*/
+
 
 public class ManageEmployee {
    private static SessionFactory factory; 
-   public static void main(String[] args) {
-      try{
-    	  factory = HibernateUtil.getSessionFactory();
-      }catch (Throwable ex) { 
-         System.err.println("Failed to create sessionFactory object." + ex);
-         throw new ExceptionInInitializerError(ex); 
-      }
-      ManageEmployee ME = new ManageEmployee();
 
-/*       Add few employee records in database 
-      Integer empID1 = ME.addEmployee("Zara", "Ali", 2000);
-      Integer empID2 = ME.addEmployee("Daisy", "Das", 5000);
-      Integer empID3 = ME.addEmployee("John", "Paul", 5000);
-      Integer empID4 = ME.addEmployee("Mohd", "Yasee", 3000);
+	public static void main(String[] args) {
+		ManageEmployee me = new ManageEmployee();
+		try {factory = HibernateUtil.getSessionFactory();} catch (Throwable ex) {}
+		//me.saveFewData();
+		//me.hqlExamples();
+		me.executeHQLSamples3();
+		
+	}
+	
+	void executeHQLSamples() {
+		String hql="from Employee";
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Query qry=session.createQuery(hql);
+		List<Employee> empLt=qry.list();
+		for(Employee employee:empLt) {
+			System.out.println(employee.getFirstName());
+		}
+		
+	}
 
-       List down all the employees 
-      ME.listEmployees();
+	void executeHQLSamples3() {
+		String cc="";
+		String hql="from Employee e join e.address";
+		System.out.println("podeka");
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Query qry=session.createQuery(hql);
+		List empLt=qry.list();
+		Object[]lt;
+		for(Object emp:empLt) {
+			lt=(Object[]) emp;
+			Employee e=(Employee) lt[0];
+			Address a=(Address) lt[1];
+			
+			System.out.println(e.getFirstName());
+			System.out.println(a.getAddress());
+			
+			Set<Address> addrs=e.getAddress();
+			for(Address ad:addrs) {
+				System.out.println(ad.getAddress());
+			}
+			System.out.println(a.getEmp().getFirstName());
+		}
+	}
+	void saveFewData() {
 
-       Print Total employee's count 
-      ME.countEmployee();
-
-       Print Toatl salary 
-      ME.totalSalary();*/
-      ME.hqlExamples();
-   }
-   
+		Session session = factory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		session.persist(new Employee("Zara", "Ali", 2000));
+		session.persist(new Employee("Daisy", "Das", 5000));
+		session.persist(new Employee("John", "Paul", 5000));
+		session.persist(new Employee("Mohd", "Yasee", 3000));
+		tx.commit();
+	}
    public void hqlExamples(){
 	   Session session = factory.openSession();
-/*	   Query qry=session.createQuery("select e from Employee e");
+	   Query qry=null;
+	   Criteria crty;
+	   
+/*	   qry=session.createQuery("from Employee e");
 	   List <Employee>eLt=qry.list();
 	   for(Employee e:eLt){
 		   System.out.println(e.getFirstName());
@@ -55,7 +120,7 @@ public class ManageEmployee {
 	   
 	   
 /*	   Transaction tx=session.beginTransaction();
-	   Query qry=session.createQuery("update Employee set firstName=:f where id=:i"); 
+	   qry=session.createQuery("update Employee set firstName=:f where id=:i"); 
 	   qry.setParameter("f", "John");
 	   qry.setParameter("i",3);
 	   int st=qry.executeUpdate();
@@ -64,83 +129,55 @@ public class ManageEmployee {
 	   
 	   
 /*	   Transaction tx=session.beginTransaction();
-	   Query qry=session.createQuery("delete from c where id=:i"); 
+	   qry=session.createQuery("delete from Employee where id=:i"); 
 	   qry.setParameter("i",3);
 	   int st=qry.executeUpdate();
 	   tx.commit();
 	   System.out.println(st);
 	   session.close();*/
 	   
-/*	   Query q=session.createQuery("select sum(salary) from Employee");  
-	   List<Integer> list=q.list();  
-	   System.out.println(list.get(0)); */
+	   
+/*	   qry=session.createQuery("select sum(salary) from Employee");  
+	   List<Integer> list=qry.list();  
+	   System.out.println(list.get(0));*/ 
 	   
 	   
-/*	   Criteria c=session.createCriteria(Employee.class); 
-	   List<Employee> list=c.list();
+	   
+/*	   crty=session.createCriteria(Employee.class); 
+	   List<Employee> list=crty.list();
 	   for(Employee e:list){
 		   System.out.println(e.getFirstName());
 	   }*/
 	   
 	   
-/*	   Criteria c=session.createCriteria(Employee.class); 
-	   c.add(Restrictions.gt("salary", 3000));
-	   List<Employee> list=c.list();
+/*	   crty=session.createCriteria(Employee.class); 
+	   crty.add(Restrictions.gt("salary", 3000));
+	   List<Employee> list=crty.list();
 	   for(Employee e:list){
 		   System.out.println(e.getFirstName());
 	   }*/
 	   
 	   
-/*	   Criteria c=session.createCriteria(Employee.class); 
-	   c.addOrder(Order.asc("firstName"));
-	   List<Employee> list=c.list();
+/*	   crty=session.createCriteria(Employee.class); 
+	   crty.addOrder(Order.asc("firstName"));
+	   List<Employee> list=crty.list();
 	   for(Employee e:list){
 		   System.out.println(e.getFirstName());
 	   }*/
 	   
 	   
-/*	   Criteria c=session.createCriteria(Employee.class);
+/*	   crty=session.createCriteria(Employee.class);
 	   ProjectionList lt=Projections.projectionList();
 	   lt.add(Projections.property("firstName"));
 	   lt.add(Projections.property("lastName"));
-	   c.setProjection(lt);
-	   List list=c.list();  */
+	   crty.setProjection(lt);
+	   List list=crty.list(); */ 
 	   
 	   
-	   
-	   
-/*	   CREATE TABLE customer (
-			   id INT NOT NULL AUTO_INCREMENT,
-			   firstname varchar(50) NOT NULL,
-			   lastname varchar(50) NOT NULL,
-			   PRIMARY KEY (id)
-			 ) ENGINE=INNODB;
-			  
-			 CREATE TABLE contact (
-			   id INT,
-			   customer_id INT,
-			   info varchar(50) NOT NULL,
-			   type varchar(50) NOT NULL,
-			   INDEX par_ind (customer_id),
-			   CONSTRAINT fk_customer FOREIGN KEY (customer_id)
-			   REFERENCES customer(id)
-			   ON DELETE CASCADE
-			   ON UPDATE CASCADE
-			 ) ENGINE=INNODB;*/
-	   
-//	   Query q=session.createQuery("from Customer cu join cu.contactLt ct where cu.firstName='a1'");
-	   Query q=session.createQuery("from Customer cu,Contact ct where cu.firstName='a1' and cu.id=ct.customerFkid");
-	/*   Query q=session.createQuery("from Customer cu join Contact ct on cu.id=ct.customerFkid and cu.firstName='a1'");*/
-	   List list=q.list(); 
-	  
-	   
-	   EntityManager e;
    }
    
    
-   
-   
-/*    Method to CREATE an employee in the database 
+   //Method to CREATE an employee in the database 
    public Integer addEmployee(String fname, String lname, int salary){
       Session session = factory.openSession();
       Transaction tx = null;
@@ -159,7 +196,7 @@ public class ManageEmployee {
       return employeeID;
    }
 
-    Method to  READ all the employees having salary more than 2000 
+   //Method to  READ all the employees having salary more than 2000 
    public void listEmployees( ){
       Session session = factory.openSession();
       Transaction tx = null;
@@ -170,8 +207,7 @@ public class ManageEmployee {
          cr.add(Restrictions.gt("salary", 2000));
          List employees = cr.list();
 
-         for (Iterator iterator = 
-                           employees.iterator(); iterator.hasNext();){
+         for (Iterator iterator = employees.iterator(); iterator.hasNext();){
             Employee employee = (Employee) iterator.next(); 
             System.out.print("First Name: " + employee.getFirstName()); 
             System.out.print("  Last Name: " + employee.getLastName()); 
@@ -185,7 +221,7 @@ public class ManageEmployee {
          session.close(); 
       }
    }
-    Method to print total number of records 
+   //Method to print total number of records 
    public void countEmployee(){
       Session session = factory.openSession();
       Transaction tx = null;
@@ -206,7 +242,7 @@ public class ManageEmployee {
          session.close(); 
       }
    }
-   Method to print sum of salaries 
+   //Method to print sum of salaries 
    public void totalSalary(){
       Session session = factory.openSession();
       Transaction tx = null;
@@ -226,5 +262,5 @@ public class ManageEmployee {
       }finally {
          session.close(); 
       }
-   }*/
+   }
 }

@@ -4,14 +4,14 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="Address" table="ADDRESS2">
-      <meta attribute="class-description">
-         This class contains the address detail. 
-      </meta>
-      <id name="id" type="int" column="id">
-         <generator class="native"/>
-      </id>
-      <property name="empId" column="emp_id" type="int"/>
-      <property name="address" column="address" type="string"/>
-   </class>
+	<class name="Address" table="employee_address">
+		<meta attribute="class-description">
+			This class contains the address detail.
+		</meta>
+		<id name="id" type="int" column="ADDID">
+			<generator class="native" />
+		</id>
+		<property name="address" type="string" column="ADDRESS"/>
+		<many-to-one name="emp" class="Employee" column="EMPID_FK" cascade="all"/>
+	</class>
 </hibernate-mapping>

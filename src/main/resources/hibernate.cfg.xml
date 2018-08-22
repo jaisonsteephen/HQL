@@ -2,7 +2,30 @@
 <!DOCTYPE hibernate-configuration PUBLIC
 		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 		"http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+		
 <hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="hibernate.connection.password">Password</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
+		<property name="hibernate.connection.username">dhanya</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+		<!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
+		
+
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        
+        <mapping resource="Employee.hbm.xml"/>
+        <mapping resource="Address.hbm.xml"/>
+        
+<!--         <mapping resource="Customer.hbm2.xml"/> -->
+<!--         <mapping resource="Contact.hbm2.xml"/> -->
+	</session-factory>
+</hibernate-configuration>
+
+		
+<!-- <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost/TestDB</property>
@@ -19,5 +42,5 @@
         <mapping resource="Customer.hbm2.xml"/>
         <mapping resource="Contact.hbm2.xml"/>
     </session-factory>
-</hibernate-configuration>
+</hibernate-configuration> -->
 

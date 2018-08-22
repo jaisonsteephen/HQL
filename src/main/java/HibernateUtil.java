@@ -18,6 +18,7 @@ public class HibernateUtil {
             return sessionFactory;
         }
         catch (Throwable ex) {
+        	System.out.println(ex);
             throw new ExceptionInInitializerError(ex);
         }
     }

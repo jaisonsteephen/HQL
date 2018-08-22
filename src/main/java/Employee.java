@@ -1,10 +1,18 @@
+import java.io.Serializable;
+import java.util.Set;
 
-public class Employee {
+public class Employee implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String firstName;
 	private String lastName;
 	private int salary;
-
+	
+	private Set<Address> address;
+	
 	public Employee() {
 	}
 
@@ -45,4 +53,13 @@ public class Employee {
 	public void setSalary(int salary) {
 		this.salary = salary;
 	}
+
+	public Set<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(Set<Address> address) {
+		this.address = address;
+	}
+	
 }
