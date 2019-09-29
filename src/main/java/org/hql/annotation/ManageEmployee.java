@@ -12,44 +12,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-/*create table EMPLOYEE2 (
-		   empid INT NOT NULL auto_increment,
-		   first_name VARCHAR(20) default NULL,
-		   last_name  VARCHAR(20) default NULL,
-		   salary     INT  default NULL,
-		   PRIMARY KEY (empid)
-		);*/
-/*create table employee_address (
-			ADDID INT NOT NULL auto_increment,
-			ADDRESS  VARCHAR(20) default NULL,
-			EMPID_FK     INT  default NULL,
-			PRIMARY KEY (ADDID)
-);*/
-
-//Oracle
-/*CREATE SEQUENCE EMP_ID_SEQ START WITH 1;*/
-
-/* CREATE OR REPLACE TRIGGER EMPLOYEE2IDTRIGR
-	BEFORE INSERT ON EMPLOYEE2
-	FOR EACH ROW
-	BEGIN
-	SELECT EMP_ID_SEQ.NEXTVAL
-	INTO   :new.empid
-	FROM   dual;
-	END;
-/*/
-
-/* CREATE OR REPLACE TRIGGER EMPLOYEE_ADDRESS_TRIGR
-  BEFORE INSERT ON EMPLOYEE_ADDRESS
-  FOR EACH ROW
-  BEGIN
-  SELECT EMP_ID_SEQ.NEXTVAL
-  INTO   :new.ADDID
-  FROM   dual;
-  END;
-  /*/
-
-
 public class ManageEmployee {
    private static SessionFactory factory; 
 
