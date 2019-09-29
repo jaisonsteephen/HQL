@@ -1,3 +1,5 @@
+CREATE SEQUENCE EMP_ID_SEQ START WITH 1;
+
 create table EMPLOYEE2 ( 	empid INT NOT NULL ,
                          	first_name VARCHAR(20) default NULL,
                          	last_name VARCHAR(20) default NULL,
